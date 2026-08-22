@@ -12,15 +12,15 @@
 - 💾 **State persistence** – restores your last collection and game on launch
 
 ---
-![screen0](https://github.com/ZagonAb/Amberline/blob/a8a566089a845ef19441df9ea17d0ecc17299a44/.meta/screenshots/screen0.png)
+![screen0](https://github.com/ZagonAb/Amberline/blob/09382be5d2668935680f90cf6eeea8bea62e16bc/.meta/screenshots/screen0.png)
 
-![screen1](https://github.com/ZagonAb/Amberline/blob/4926cca71938428c6452890d2dcdcb9799f8732e/.meta/screenshots/screen1.png)
+![screen1](https://github.com/ZagonAb/Amberline/blob/09382be5d2668935680f90cf6eeea8bea62e16bc/.meta/screenshots/screen1.png)
 
-![screen2](https://github.com/ZagonAb/Amberline/blob/a8a566089a845ef19441df9ea17d0ecc17299a44/.meta/screenshots/screen2.png)
+![screen2](https://github.com/ZagonAb/Amberline/blob/09382be5d2668935680f90cf6eeea8bea62e16bc/.meta/screenshots/screen2.png)
 
-![screen3](https://github.com/ZagonAb/Amberline/blob/a8a566089a845ef19441df9ea17d0ecc17299a44/.meta/screenshots/screen3.png)
+![screen3](https://github.com/ZagonAb/Amberline/blob/09382be5d2668935680f90cf6eeea8bea62e16bc/.meta/screenshots/screen3.png)
 
-![screen4](https://github.com/ZagonAb/Amberline/blob/b715791390de18cc5104a35fe1858aae09a52a1c/.meta/screenshots/screen4.png)
+![screen4](https://github.com/ZagonAb/Amberline/blob/09382be5d2668935680f90cf6eeea8bea62e16bc/.meta/screenshots/screen4.png)
 
 ## Resource Credits
 
