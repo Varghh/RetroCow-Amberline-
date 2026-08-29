@@ -11,8 +11,8 @@ Item {
     readonly property int itemHeight: Math.round(34 * Style.scale)
     readonly property int edgeFadeWidth: Math.round(44 * Style.scale)
     readonly property real edgeFadeFraction: listView.width > 0
-        ? Math.min(0.45, edgeFadeWidth / listView.width)
-        : 0
+    ? Math.min(0.45, edgeFadeWidth / listView.width)
+    : 0
     readonly property bool listOverflowing: listView.contentWidth > listView.width + 1
     readonly property bool leftFadeActive: listOverflowing && !listView.atXBeginning
     readonly property bool rightFadeActive: listOverflowing && !listView.atXEnd
@@ -48,8 +48,12 @@ Item {
     }
 
     function ensureCurrentVisible() {
-        if (listView.count > 0 && listView.currentIndex >= 0) {
+        if (listView.count === 0 || listView.currentIndex < 0) return;
+
+        if (listView.width > 0 && listView.contentWidth > 0) {
             listView.positionViewAtIndex(listView.currentIndex, ListView.Center);
+        } else {
+            Qt.callLater(ensureCurrentVisible);
         }
     }
 
@@ -131,7 +135,11 @@ Item {
         spacing: Style.spacingSmall
         highlightMoveDuration: Style.animationFast
         model: entries
-        visible: !root.anyFadeActive
+        layer.enabled: root.anyFadeActive
+        layer.effect: OpacityMask {
+            maskSource: edgeFadeMask
+            cached: true
+        }
 
         onCurrentIndexChanged: {
             console.log("[CollectionBar] currentIndex cambió a:", currentIndex);
@@ -151,7 +159,7 @@ Item {
             isCurrent: ListView.isCurrentItem
 
             transformOrigin: index === 0 ? Item.Left
-                : (index === entries.count - 1 ? Item.Right : Item.Center)
+            : (index === entries.count - 1 ? Item.Right : Item.Center)
 
             property var entryData: ({ kind: model.kind, collectionIndex: model.collectionIndex, label: model.label })
 
@@ -267,13 +275,5 @@ Item {
             GradientStop { position: 1.0 - root.edgeFadeFraction; color: "#FFFFFFFF" }
             GradientStop { position: 1.0; color: root.rightFadeActive ? "#00FFFFFF" : "#FFFFFFFF" }
         }
-    }
-
-    OpacityMask {
-        anchors.fill: listView
-        source: listView
-        maskSource: edgeFadeMask
-        visible: root.anyFadeActive
-        cached: true
     }
 }
