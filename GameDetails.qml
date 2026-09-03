@@ -7,8 +7,11 @@ Rectangle {
     id: root
 
     property var game: null
+    property int currentAssetIndex: 0
 
-    property string currentAssetType: "screenshot"
+    readonly property var currentAssetItem: (assetItems.length > 0 && currentAssetIndex >= 0 && currentAssetIndex < assetItems.length)
+    ? assetItems[currentAssetIndex] : null
+    readonly property string currentAssetType: currentAssetItem ? currentAssetItem.type : ""
 
     readonly property bool raPanelOpen: raLoader.active
 
@@ -33,19 +36,36 @@ Rectangle {
         "cabinetRight", "background", "video"
     ]
 
-    function getAvailableAssetTypes(g) {
+    function getAssetList(g, type) {
         if (!g || !g.assets) return []
-            var result = []
-            for (var i = 0; i < imageAssetTypes.length; ++i) {
-                var type = imageAssetTypes[i]
-                var assetUrl = g.assets[type]
-                if (assetUrl && assetUrl !== "") result.push(type)
+            var list = g.assets[type + "List"]
+            if (list && list.length > 0) {
+                var result = []
+                for (var i = 0; i < list.length; ++i) {
+                    var url = list[i]
+                    if (url && url.toString() !== "") result.push(url)
+                }
+                if (result.length > 0) return result
             }
-            return result
+            var single = g.assets[type]
+            if (single && single.toString() !== "") return [single]
+                return []
     }
 
-    readonly property var availableAssetTypes: game ? getAvailableAssetTypes(game) : []
-    readonly property int currentDotIndex: availableAssetTypes.indexOf(currentAssetType)
+    function buildAssetItems(g) {
+        if (!g || !g.assets) return []
+            var items = []
+            for (var i = 0; i < imageAssetTypes.length; ++i) {
+                var type = imageAssetTypes[i]
+                var urls = getAssetList(g, type)
+                for (var j = 0; j < urls.length; ++j) {
+                    items.push({ type: type, url: urls[j] })
+                }
+            }
+            return items
+    }
+
+    readonly property var assetItems: game ? buildAssetItems(game) : []
 
     function collectionShortName(g) {
         if (!g || !g.collections || g.collections.count === 0) return ""
@@ -54,39 +74,15 @@ Rectangle {
     }
 
     function hasAnyAsset(g) {
-        if (!g || !g.assets) return false
-            for (var i = 0; i < imageAssetTypes.length; ++i) {
-                var url = g.assets[imageAssetTypes[i]]
-                if (url && url !== "") return true
-            }
-            return false
+        return buildAssetItems(g).length > 0
     }
 
-    function getFirstAvailableAssetType(game) {
-        if (!game || !game.assets) return "screenshot"
-            for (var i = 0; i < imageAssetTypes.length; ++i) {
-                var type = imageAssetTypes[i]
-                var assetUrl = game.assets[type]
-                if (assetUrl && assetUrl !== "") {
-                    return type
-                }
-            }
-            return "screenshot"
-    }
-
-    function getNextAvailableAssetType(game, currentType) {
-        if (!game || !game.assets) return currentType
-            var currentIndex = imageAssetTypes.indexOf(currentType)
-            if (currentIndex === -1) currentIndex = 0
-                for (var i = 1; i <= imageAssetTypes.length; ++i) {
-                    var nextIndex = (currentIndex + i) % imageAssetTypes.length
-                    var nextType = imageAssetTypes[nextIndex]
-                    var assetUrl = game.assets[nextType]
-                    if (assetUrl && assetUrl !== "") {
-                        return nextType
-                    }
-                }
-                return currentType
+    function getNextAssetIndex(items, currentIndex) {
+        if (!items || items.length === 0) return -1
+            if (items.length === 1) return 0
+                var next = currentIndex + 1
+                if (next >= items.length || next < 0) next = 0
+                    return next
     }
 
     function formatPlayTime(totalSeconds) {
@@ -125,15 +121,17 @@ Rectangle {
     }
 
     function cycleAsset() {
-        if (!game) return
-            var nextType = getNextAvailableAssetType(game, currentAssetType)
-            if (nextType !== currentAssetType) {
-                currentAssetType = nextType
+        if (!game || assetItems.length === 0) return
+            var nextIndex = getNextAssetIndex(assetItems, currentAssetIndex)
+            if (nextIndex !== -1 && nextIndex !== currentAssetIndex) {
+                currentAssetIndex = nextIndex
             }
     }
 
     function updateContent() {
-        if (!game || !hasAnyAsset(game)) {
+        var items = game ? buildAssetItems(game) : []
+
+        if (!game || items.length === 0) {
             if (mediaPlayer.playbackState !== MediaPlayer.StoppedState) {
                 mediaPlayer.stop()
             }
@@ -148,8 +146,11 @@ Rectangle {
 
         systemContentContainer.visible = false
 
-        var assetUrl = game.assets[currentAssetType]
-        var isVideo = (currentAssetType === "video" && assetUrl !== "")
+        var idx = currentAssetIndex
+        if (idx < 0 || idx >= items.length) idx = 0
+            var item = items[idx]
+            var assetUrl = item.url
+            var isVideo = (item.type === "video" && assetUrl !== "")
 
         if (!isVideo) {
             if (mediaPlayer.playbackState !== MediaPlayer.StoppedState) {
@@ -171,14 +172,15 @@ Rectangle {
 
     onGameChanged: {
         if (game) {
-            currentAssetType = getFirstAvailableAssetType(game)
+            var items = buildAssetItems(game)
+            currentAssetIndex = items.length > 0 ? 0 : -1
         } else {
-            currentAssetType = "screenshot"
+            currentAssetIndex = -1
         }
         updateContent()
     }
 
-    onCurrentAssetTypeChanged: {
+    onCurrentAssetIndexChanged: {
         updateContent()
     }
 
@@ -194,27 +196,83 @@ Rectangle {
 
         transform: Translate { id: contentWrapperSlide; y: 0 }
 
-        Row {
+        Item {
             id: assetDotLine
             anchors.top: parent.top
             anchors.topMargin: Style.spacingSmall
             anchors.horizontalCenter: parent.horizontalCenter
-            spacing: Style.spacingSmall
             z: 5
-            visible: !!root.game && root.availableAssetTypes.length > 1
+            visible: !!root.game && root.assetItems.length > 1
 
-            Repeater {
-                model: root.availableAssetTypes
+            readonly property int dotWidth: Math.round(16 * Style.scale)
+            readonly property int dotHeight: Math.round(4 * Style.scale)
+            readonly property int dotSpacing: Style.spacingSmall
+            readonly property real naturalWidth: root.assetItems.length > 0
+            ? (root.assetItems.length * dotWidth + (root.assetItems.length - 1) * dotSpacing)
+            : 0
+            readonly property int edgeFadeWidth: Math.round(20 * Style.scale)
+            readonly property real edgeFadeFraction: dotListView.width > 0
+            ? Math.min(0.4, edgeFadeWidth / dotListView.width) : 0
+            readonly property bool listOverflowing: dotListView.contentWidth > dotListView.width + 1
+            readonly property bool leftFadeActive: listOverflowing && !dotListView.atXBeginning
+            readonly property bool rightFadeActive: listOverflowing && !dotListView.atXEnd
+            readonly property bool anyFadeActive: leftFadeActive || rightFadeActive
+
+            width: Math.min(parent.width * 0.75, naturalWidth)
+            height: dotHeight
+
+            function ensureCurrentDotVisible() {
+                if (dotListView.count === 0 || root.currentAssetIndex < 0) return
+                    if (dotListView.width > 0 && dotListView.contentWidth > 0) {
+                        dotListView.positionViewAtIndex(root.currentAssetIndex, ListView.Center)
+                    } else {
+                        Qt.callLater(ensureCurrentDotVisible)
+                    }
+            }
+
+            ListView {
+                id: dotListView
+                anchors.fill: parent
+                clip: false
+                interactive: false
+                orientation: ListView.Horizontal
+                spacing: assetDotLine.dotSpacing
+                highlightMoveDuration: Style.animationFast
+                currentIndex: root.currentAssetIndex
+                model: root.assetItems
+                layer.enabled: assetDotLine.anyFadeActive
+                layer.effect: OpacityMask {
+                    maskSource: dotEdgeFadeMask
+                    cached: true
+                }
 
                 delegate: Rectangle {
-                    width: Math.round(16 * Style.scale)
-                    height: Math.round(4 * Style.scale)
+                    width: assetDotLine.dotWidth
+                    height: assetDotLine.dotHeight
                     radius: height / 2
-                    color: index === root.currentDotIndex ? Style.colorAccent : Style.colorBackground
+                    color: index === root.currentAssetIndex ? Style.colorAccent : Style.colorBackground
 
                     Behavior on color {
                         ColorAnimation { duration: Style.animationFast }
                     }
+                }
+
+                onCurrentIndexChanged: Qt.callLater(assetDotLine.ensureCurrentDotVisible)
+                onCountChanged: Qt.callLater(assetDotLine.ensureCurrentDotVisible)
+                Component.onCompleted: Qt.callLater(assetDotLine.ensureCurrentDotVisible)
+            }
+
+            LinearGradient {
+                id: dotEdgeFadeMask
+                visible: false
+                anchors.fill: dotListView
+                start: Qt.point(0, 0)
+                end: Qt.point(width, 0)
+                gradient: Gradient {
+                    GradientStop { position: 0.0; color: assetDotLine.leftFadeActive ? "#00FFFFFF" : "#FFFFFFFF" }
+                    GradientStop { position: assetDotLine.edgeFadeFraction; color: "#FFFFFFFF" }
+                    GradientStop { position: 1.0 - assetDotLine.edgeFadeFraction; color: "#FFFFFFFF" }
+                    GradientStop { position: 1.0; color: assetDotLine.rightFadeActive ? "#00FFFFFF" : "#FFFFFFFF" }
                 }
             }
         }
