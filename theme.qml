@@ -4,7 +4,7 @@ FocusScope {
     id: themeRoot
     focus: true
 
-    readonly property string currentVersion: "1.0.3"
+    readonly property string currentVersion: "1.0.4"
     property bool interfaceReady: false
     property bool minSplashTimeElapsed: false
 

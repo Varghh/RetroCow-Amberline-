@@ -118,7 +118,8 @@ FocusScope {
             collectionName = name;
         }
 
-        launchOverlay.show(title, collectionName, collectionShortName);
+        var gameLogo = (game.assets && game.assets.logo) ? game.assets.logo : "";
+        launchOverlay.show(title, collectionName, collectionShortName, gameLogo);
         launchDelayTimer.gameToLaunch = game;
         launchDelayTimer.restart();
     }

@@ -12,11 +12,13 @@ Rectangle {
     property string gameTitle: ""
     property string collectionName: ""
     property string collectionShortName: ""
+    property string gameLogo: ""
 
-    function show(title, collection, shortName) {
+    function show(title, collection, shortName, logo) {
         gameTitle = title
         collectionName = collection
         collectionShortName = shortName || ""
+        gameLogo = logo || ""
         visible = true
         fadeIn.start()
         scaleIn.start()
@@ -32,6 +34,7 @@ Rectangle {
         centerBox.scale = 0.0
         collectionImage.y = -collectionImage.height
         systemLogo.y = -systemLogo.height
+        gameLogo = ""
     }
 
     MouseArea {
@@ -43,7 +46,7 @@ Rectangle {
         id: centerBox
         anchors.centerIn: parent
         width: Math.min(parent.width * 0.6, 600 * Style.scale)
-        height: width * 0.55
+        height: Math.max(width * 0.55, contentColumn.implicitHeight + Style.spacingLarge * 2)
         radius: Style.radiusPanel * 2
         color: Style.colorPanel
         border.color: Style.colorAccent
@@ -59,9 +62,30 @@ Rectangle {
         }
 
         Column {
+            id: contentColumn
             anchors.centerIn: parent
             spacing: Style.spacingMedium
             width: parent.width * 0.8
+
+            Image {
+                id: gameLogoImage
+                anchors.horizontalCenter: parent.horizontalCenter
+                source: overlay.gameLogo !== "" ? overlay.gameLogo : ""
+                visible: source !== "" && status === Image.Ready
+                fillMode: Image.PreserveAspectFit
+                width: parent.width * 0.7
+                height: visible ? Math.min(centerBox.width * 0.32, 130 * Style.scale) : 0
+                asynchronous: true
+                smooth: true
+
+                layer.enabled: true
+                layer.effect: DropShadow {
+                    horizontalOffset: 0
+                    verticalOffset: 3 * Style.scale
+                    radius: 6 * Style.scale
+                    color: Qt.rgba(0,0,0,0.4)
+                }
+            }
 
             Text {
                 anchors.horizontalCenter: parent.horizontalCenter
