@@ -64,4 +64,4 @@ Ver [validaciones realizadas y sus límites](docs/VALIDATION.md).
 
 La adaptación conserva **[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)**, indicada por Amberline: atribución, uso no comercial y compartir bajo la misma licencia. Los recursos de terceros mantienen sus licencias. Ver [LICENSE.md](LICENSE.md) y [README original íntegro](docs/AMBERLINE_UPSTREAM.md).
 
-Apoyo al autor original: [PayPal](https://paypal.me/ZagonAb), [Liberapay](https://liberapay.com/Gonzalo/donate), [Ko-fi](https://ko-fi.com/zagonab).
+Apoya al autor original: [PayPal](https://paypal.me/ZagonAb), [Liberapay](https://liberapay.com/Gonzalo/donate), [Ko-fi](https://ko-fi.com/zagonab).
