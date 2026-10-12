@@ -1263,7 +1263,7 @@ FocusScope {
                         Text {
                             anchors.horizontalCenter: parent.horizontalCenter
                             width: parent.width
-                            text: "You're about to sign out of your RetroAchievements account in Amberline.\nAre you sure you want to continue?"
+                            text: "You're about to sign out of your RetroAchievements account in " + Brand.name + ".\nAre you sure you want to continue?"
                             color: Style.colorTextPrimary
                             font.family: Fonts.smooch
                             font.pixelSize: Style.fontSizeLarge

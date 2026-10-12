@@ -8,6 +8,7 @@ Item {
     signal themeSelected(string themeName)
 
     readonly property var themes: [
+        { name: "retrocow", dotColor: "#0a0026", ringColor: "#ff71ce" },
         { name: "dark", dotColor: "#0e1114", ringColor: "#4c77dc" },
         { name: "light", dotColor: "#eef0f4", ringColor: "#2753cc" },
         { name: "valentine", dotColor: "#1d0410", ringColor: "#e96295" },
@@ -24,7 +25,7 @@ Item {
         { name: "oled", dotColor: "#000000", ringColor: "#00e5ff" }
     ]
 
-    property int highlightIndex: 5
+    property int highlightIndex: 0
 
     function _indexForTheme(themeName) {
         for (var i = 0; i < themes.length; i++) {
