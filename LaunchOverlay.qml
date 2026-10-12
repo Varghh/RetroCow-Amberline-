@@ -42,6 +42,27 @@ Rectangle {
         enabled: overlay.visible
     }
 
+    Row {
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: Style.spacingLarge
+        spacing: Style.spacingSmall
+
+        RetroCowLogo {
+            width: Math.round(26 * Style.scale)
+            height: width
+            anchors.verticalCenter: parent.verticalCenter
+        }
+
+        Text {
+            text: Brand.name
+            color: Style.colorTextSecondary
+            font.family: Fonts.pixelify
+            font.pixelSize: Style.fontSizeMediumLarge
+            anchors.verticalCenter: parent.verticalCenter
+        }
+    }
+
     Rectangle {
         id: centerBox
         anchors.centerIn: parent

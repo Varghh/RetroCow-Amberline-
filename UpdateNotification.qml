@@ -94,7 +94,7 @@ FocusScope {
 
             Text {
                 width: parent.width
-                text: "Amberline " + latestVersion + " is now available."
+                text: Brand.name + " " + latestVersion + " is now available."
                 color: Style.colorTextPrimary
                 font.family: Fonts.smooch
                 font.pixelSize: Style.fontSizeLarge

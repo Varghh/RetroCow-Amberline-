@@ -175,7 +175,7 @@ FocusScope {
 
             Item {
                 id: colorIcon
-                width:  collectionBar.itemHeight
+                width:  brandRow.implicitWidth + Style.spacingSmall * 2
                 height: collectionBar.itemHeight
 
                 Rectangle {
@@ -190,12 +190,24 @@ FocusScope {
                     }
                 }
 
-                IconImage {
-                    iconName: "color"
-                    overlayColor: Style.colorAccent
-                    width:    Math.round(25 * Style.scale)
-                    height:   width
+                Row {
+                    id: brandRow
                     anchors.centerIn: parent
+                    spacing: Style.spacingSmall
+
+                    RetroCowLogo {
+                        width: Math.round(26 * Style.scale)
+                        height: width
+                        anchors.verticalCenter: parent.verticalCenter
+                    }
+
+                    Text {
+                        text: Brand.name
+                        color: Style.colorAccent
+                        font.family: Fonts.pixelify
+                        font.pixelSize: Style.fontSizeMediumLarge
+                        anchors.verticalCenter: parent.verticalCenter
+                    }
                 }
 
                 scale: colorSetting.visible ? 1.04 : 1.0

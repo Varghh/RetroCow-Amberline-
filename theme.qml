@@ -4,7 +4,7 @@ FocusScope {
     id: themeRoot
     focus: true
 
-    readonly property string currentVersion: "1.0.4"
+    readonly property string currentVersion: Brand.version
     property bool interfaceReady: false
     property bool minSplashTimeElapsed: false
 
@@ -50,7 +50,7 @@ FocusScope {
     function checkForUpdates() {
         console.log("[theme][checkForUpdates] Iniciando comprobación...");
         var xhr = new XMLHttpRequest();
-        var url = "https://api.github.com/repos/ZagonAb/Amberline/releases/latest";
+        var url = Brand.releasesApi;
         console.log("[theme][checkForUpdates] URL:", url);
         xhr.open("GET", url, true);
         xhr.onreadystatechange = function() {
@@ -72,8 +72,8 @@ FocusScope {
                                     "releaseUrl:", releaseUrl);
                         if (latestVersion && isNewerVersion(latestVersion, currentVersion)) {
                             console.log("[theme][checkForUpdates] Versión más nueva detectada!");
-                            var lastNotified = api.memory.has('lastUpdateNotified')
-                            ? api.memory.get('lastUpdateNotified')
+                            var lastNotified = api.memory.has(Brand.updateMemoryKey)
+                            ? api.memory.get(Brand.updateMemoryKey)
                             : "";
                             console.log("[theme][checkForUpdates] lastNotified:", lastNotified);
                             if (latestVersion !== lastNotified) {
@@ -81,7 +81,7 @@ FocusScope {
                                 themeRoot._pendingVersion = latestVersion;
                                 themeRoot._pendingUrl = releaseUrl;
                                 themeRoot._pendingNotes = releaseNotes;
-                                api.memory.set('lastUpdateNotified', latestVersion);
+                                api.memory.set(Brand.updateMemoryKey, latestVersion);
                                 if (splashOverlay.splashHidden) {
                                     postSplashNotifTimer.restart();
                                 }
@@ -139,8 +139,8 @@ FocusScope {
         " width=" + width + " height=" + height);
         Style.updateScale(width, height);
 
-        var savedTheme = api.memory.has('selectedTheme')
-        ? api.memory.get('selectedTheme')
+        var savedTheme = api.memory.has(Brand.paletteMemoryKey)
+        ? api.memory.get(Brand.paletteMemoryKey)
         : Style.defaultThemeName;
         console.log("[theme] Restaurando tema de color: " + savedTheme);
         Style.applyTheme(savedTheme);
@@ -236,10 +236,16 @@ FocusScope {
             anchors.centerIn: parent
             spacing: Style.spacingLarge
 
+            RetroCowLogo {
+                anchors.horizontalCenter: parent.horizontalCenter
+                width: Math.round(160 * Style.scale)
+                height: width
+            }
+
             Text {
                 id: brandText
                 anchors.horizontalCenter: parent.horizontalCenter
-                text: "AMBERLINE"
+                text: Brand.name
                 color: Style.colorTextPrimary
                 font.family: Fonts.pixelify
                 font.pixelSize: Style.fontSizeTitle * 2.6

@@ -5,6 +5,18 @@ Item {
     id: style
 
     readonly property var palettes: ({
+        retrocow: {
+            background: "#0a0026",
+            panel: "#1b1038",
+            panelAlt: "#291747",
+            border: "#553ea8",
+            accent: "#ff71ce",
+            accentDim: "#a83c86",
+            focus: "#7df9ff",
+            textPrimary: "#f5efff",
+            textSecondary: "#c1b3dc",
+            favorite: "#7df9ff"
+        },
         coffee: {
             background: "#151108",
             panel: "#221f1a",
@@ -175,13 +187,13 @@ Item {
         }
     })
 
-    readonly property string defaultThemeName: "coffee"
+    readonly property string defaultThemeName: "retrocow"
     property string currentThemeName: defaultThemeName
     readonly property var currentPalette: palettes[currentThemeName] || palettes[defaultThemeName]
 
     function applyTheme(themeName) {
         _setTheme(themeName);
-        api.memory.set('selectedTheme', themeName);
+        api.memory.set(Brand.paletteMemoryKey, currentThemeName);
     }
 
     function previewTheme(themeName) {
