@@ -238,26 +238,10 @@ FocusScope {
 
             RetroCowLogo {
                 anchors.horizontalCenter: parent.horizontalCenter
-                width: Math.round(160 * Style.scale)
-                height: width
+                width: Math.min(themeRoot.width * 0.7, Math.round(640 * Style.scale))
+                height: width / 3
             }
 
-            Text {
-                id: brandText
-                anchors.horizontalCenter: parent.horizontalCenter
-                text: Brand.name
-                color: Style.colorTextPrimary
-                font.family: Fonts.pixelify
-                font.pixelSize: Style.fontSizeTitle * 2.6
-                font.letterSpacing: Math.round(2 * Style.scale)
-
-                SequentialAnimation on opacity {
-                    loops: Animation.Infinite
-                    running: splashOverlay.visible
-                    NumberAnimation { from: 0.75; to: 1.0; duration: 900; easing.type: Easing.InOutSine }
-                    NumberAnimation { from: 1.0; to: 0.75; duration: 900; easing.type: Easing.InOutSine }
-                }
-            }
 
             Row {
                 anchors.horizontalCenter: parent.horizontalCenter

@@ -196,16 +196,8 @@ FocusScope {
                     spacing: Style.spacingSmall
 
                     RetroCowLogo {
-                        width: Math.round(26 * Style.scale)
-                        height: width
-                        anchors.verticalCenter: parent.verticalCenter
-                    }
-
-                    Text {
-                        text: Brand.name
-                        color: Style.colorAccent
-                        font.family: Fonts.pixelify
-                        font.pixelSize: Style.fontSizeMediumLarge
+                        width: Math.round(150 * Style.scale)
+                        height: Math.round(40 * Style.scale)
                         anchors.verticalCenter: parent.verticalCenter
                     }
                 }

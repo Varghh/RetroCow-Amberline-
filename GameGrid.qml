@@ -159,12 +159,10 @@ FocusScope {
     readonly property int effectiveTargetColumns: (Style.isNarrowScreen && activeProfile.targetColumnsNarrow !== undefined)
     ? activeProfile.targetColumnsNarrow
     : activeProfile.targetColumns
-    readonly property int columns: effectiveTargetColumns > 0
-    ? Math.max(1, Math.min(effectiveTargetColumns, dynamicColumns))
-    : dynamicColumns
+    readonly property int columns: 3
 
     readonly property real cardWidth: (availableGridWidth / columns) - cellSpacing
-    readonly property real cardHeight: cardWidth * activeProfile.heightRatio
+    readonly property real cardHeight: Math.max(1, (gridView.height / 3) - cellSpacing)
 
     onColumnsChanged: console.log("[GameGrid][DEBUG] columns cambió a " + columns + " t=" + Date.now() + " orientationResolved=" + orientationResolved + " collectionOrientation=" + collectionOrientation + " gridView.count=" + gridView.count)
     onCollectionOrientationChanged: console.log("[GameGrid][DEBUG] collectionOrientation cambió a " + collectionOrientation + " t=" + Date.now())
