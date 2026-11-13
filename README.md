@@ -1,14 +1,6 @@
-## Identidad oficial RetroCow
-
 ![Logotipo y mascota oficiales](assets/branding/retrocow-logo.png)
 
-El logotipo unido a la vaca con lentes es la identidad oficial definitiva de RetroCow, compartida por Pegasus, EmulationStation y como referencia para el futuro Launcher. `assets/branding/retrocow-master.png` conserva exactamente el PNG proporcionado, sin alteraciones. `retrocow-logo.png` es una copia reducida proporcionalmente a 1024 píxeles de ancho, con transparencia y sin recolorear, redibujar ni separar texto y mascota. El maestro no se carga durante la navegación.
-
-RetroCow es una personalización visual: la autoría de Amberline (Pegasus) y Minimal (EmulationStation) corresponde a sus desarrolladores originales, acreditados abajo. Se conservan sus licencias y atribuciones. Los recursos anteriores permanecen como referencia histórica, pero el encabezado utiliza la nueva identidad.
-
 # RetroCow
-
-![Mascota RetroCow](assets/branding/retrocow-mascot.png)
 
 **RetroCow 0.1.0** es una primera versión de prueba para Pegasus Frontend, basada en **Amberline 1.0.4**, creado por **Gonzalo Abbate / ZagonAb**. Conserva su navegación y estructura, con una vaca pixelada y una paleta vaporwave propia.
 
@@ -48,18 +40,6 @@ Se conservan el splash mínimo de **700 ms**, sus condiciones de finalización y
 Esto acota los cambios, pero **no constituye un benchmark ni garantiza FPS equivalentes en una TVBox**. Ver [guía de prueba](docs/TESTING.md) y [decisiones de implementación](docs/IMPLEMENTATION.md).
 
 Este tema cambia su propio splash, después de cargar Pegasus. El logo **P** del arranque de la aplicación pertenece a Pegasus y no se reemplaza mediante este fork.
-
-## Capturas de la prueba de escritorio
-
-Capturas reales de Pegasus con una biblioteca ficticia de tres entradas y renderizado por software. Se usa la vaca como carátula de prueba; no se incluyen juegos ni ROMs. Estas imágenes muestran la identidad y el diseño, no un benchmark de la TVBox.
-
-![Splash RetroCow](.meta/screenshots/retrocow-splash.png)
-
-![RetroCow en 16:9](.meta/screenshots/retrocow-16x9.png)
-
-![RetroCow en 4:3](.meta/screenshots/retrocow-4x3.png)
-
-Ver [validaciones realizadas y sus límites](docs/VALIDATION.md).
 
 ## Créditos y licencia
 
