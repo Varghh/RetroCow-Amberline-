@@ -44,7 +44,7 @@ Este tema cambia su propio splash, después de cargar Pegasus. El logo **P** del
 ## Créditos y licencia
 
 - **Original:** [Amberline](https://github.com/ZagonAb/Amberline), por **Gonzalo Abbate / ZagonAb**. Base 1.0.4, commit `ef3d7404b1ba56a1319e0fc544e51e96d8bf151c`.
-- **Adaptación RetroCow:** Varghh. La mascota parte del icono suministrado para el proyecto; la variante de color se preparó con asistencia de generación de imágenes.
+- **Adaptación RetroCow:** Varghh. La mascota se preparó con asistencia de generación de imágenes.
 - **Frontend:** [Pegasus](https://github.com/mmatyas/pegasus-frontend), por Mátyás Mustoha y colaboradores.
 - **Notificación:** [TheArbuzikYT](https://freesound.org/s/840284/), CC0.
 - **Otros sonidos e iconos:** colaboradores de [retroarch-assets / libretro](https://github.com/libretro/retroarch-assets), [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
